@@ -15,19 +15,21 @@ def Ackley_global_minimum(firefly):
 
     result2 = math.cos(2 * math.pi * firefly.x) + math.cos(2 * math.pi * firefly.y)
     result2 /= 2
-    result2 = -math.exp(result2) + 20 + math.e
+    result2 = math.exp(result2) + 20 + math.e
 
     return result - result2
 
-
-def example_function(firefly):
+def Ackley_global_maximum(firefly):
     result = abs(firefly.x) + abs(firefly.y)
     result *= math.exp(-(firefly.x ** 2 + firefly.y ** 2))
     return result
 
+def Michalewicz(firefly):
+    return  -(math.sin(firefly.x) * math.sin((firefly.x**2)/math.pi)**20) + -(math.sin(firefly.y) * math.sin((2 * firefly.y**2)/math.pi)**20)
+
 def description(fireflies):
-    for firefly in fireflies:
-        print("x:", firefly.x, "y:", firefly.y, "brightness:", firefly.brightness, "attractiveness", firefly.attractiveness)
+    for i, firefly in enumerate(fireflies):
+        print(i, "x:", firefly.x, "y:", firefly.y, "brightness:", firefly.brightness)
 
 def index_of_alpha(fireflies):
     alpha = fireflies[0]

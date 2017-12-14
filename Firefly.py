@@ -3,4 +3,4 @@ class Firefly:
         self.x = x
         self.y = y
         self.brightness = brightness
-        self.attractiveness = 1
+        self.attractiveness = self.brightness
