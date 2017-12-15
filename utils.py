@@ -1,9 +1,7 @@
 import math
 
-
 def distance(firefly, other_firefly):
     return math.sqrt((other_firefly.x - firefly.x) ** 2 + (other_firefly.y - firefly.y) ** 2)
-
 
 def Ackley_global_minimum(firefly):
     result = firefly.x ** 2 + firefly.y ** 2
