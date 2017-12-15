@@ -17,11 +17,11 @@ MAX_Y = 20
 Firefly.py
 
 class Firefly:
-def __init__(self, x, y, brightness):
-self.x = x
-self.y = y
-self.brightness = brightness
-self.attractiveness = self.brightness
+    def __init__(self, x, y, brightness):
+        self.x = x
+        self.y = y
+        self.brightness = brightness
+        self.attractiveness = self.brightness
 ```
 ```python
 Swarm.py
@@ -33,17 +33,17 @@ import utils
 
 class Swarm:
     def __init__(self, alpha, absorption):
-    self.alpha = alpha
-    self.absorption = absorption
-    self.fireflies = []
-    self.most_attractive = []
-    self.minX = config.MIN_X
-    self.maxX = config.MAX_X
-    self.minY = config.MIN_Y
-    self.maxY = config.MAX_Y
-    self.width = self.maxX - self.minX
-    self.height = self.maxY - self.minY
-    self.fireflies_generator(config.POPULATION)
+        self.alpha = alpha
+        self.absorption = absorption
+        self.fireflies = []
+        self.most_attractive = []
+        self.minX = config.MIN_X
+        self.maxX = config.MAX_X
+        self.minY = config.MIN_Y
+        self.maxY = config.MAX_Y
+        self.width = self.maxX - self.minX
+        self.height = self.maxY - self.minY
+        self.fireflies_generator(config.POPULATION)
 
     def move(self, firefly, other_firefly):
         fraction = 2
@@ -104,4 +104,85 @@ class Swarm:
             tmp_area[int(y)][int(x)] = str(i)
         for ar in tmp_area:
         print(ar)
+```
+
+```python
+Main.py
+
+from Swarm import Swarm
+import config
+import utils
+
+def main():
+    swarm = Swarm(config.ALPHA, config.ABSORPTION)
+
+    # swarm.__str__()
+
+    t = 0
+
+    while t < config.MAX_GENERATION:
+        for i, firefly in enumerate(swarm.fireflies):
+            update_brightness(swarm.fireflies)
+            swarm.update_attractiveness()
+            other_firefly = swarm.most_attractive[i]
+
+            if other_firefly is not firefly and other_firefly.attractiveness > firefly.attractiveness:
+                swarm.move(firefly, other_firefly)
+            elif other_firefly.attractiveness == firefly.attractiveness:
+                swarm.move_randomly(other_firefly)
+
+        t += 1
+
+    # print()
+    # swarm.__str__()
+
+def update_brightness(fireflies):
+    for firefly in fireflies:
+        firefly.brightness = -utils.Ackley_global_minimum(firefly)
+        firefly.attractiveness = firefly.brightness
+
+if __name__ == "__main__":
+    main()
+```
+
+```python
+utils.py
+
+import math
+
+def distance(firefly, other_firefly):
+    return math.sqrt((other_firefly.x - firefly.x) ** 2 + (other_firefly.y - firefly.y) ** 2)
+
+def Ackley_global_minimum(firefly):
+    result = firefly.x ** 2 + firefly.y ** 2
+
+    result /= 2
+    result = math.sqrt(result)
+    result /= -5
+    result = -20 * math.exp(result)
+
+    result2 = math.cos(2 * math.pi * firefly.x) + math.cos(2 * math.pi * firefly.y)
+    result2 /= 2
+    result2 = math.exp(result2) + 20 + math.e
+
+    return result - result2
+
+def Ackley_global_maximum(firefly):
+    result = abs(firefly.x) + abs(firefly.y)
+    result *= math.exp(-(firefly.x ** 2 + firefly.y ** 2))
+    return result
+
+def Michalewicz(firefly):
+    return  -(math.sin(firefly.x) * math.sin((firefly.x**2)/math.pi)**20) + -(math.sin(firefly.y) * math.sin((2 * firefly.y**2)/math.pi)**20)
+
+def description(fireflies):
+    for i, firefly in enumerate(fireflies):
+        print(i, "x:", firefly.x, "y:", firefly.y, "brightness:", firefly.brightness)
+
+def index_of_alpha(fireflies):
+    alpha = fireflies[0]
+    for firefly in fireflies:
+        if firefly.brightness > alpha.brightness:
+            alpha = firefly
+    return fireflies.index(alpha)
 ```
