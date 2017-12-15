@@ -1,5 +1,5 @@
 # firefly_algorithm_2D
-### Firefly Algorithm in 2D on Python CS@UCU2017
+### Firefly Algorithm in 2D on Python "Ad Fontes" project CS@UCU2017
 
 ```python
 config.py
