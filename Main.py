@@ -5,7 +5,7 @@ import utils
 def main():
     swarm = Swarm(config.ALPHA, config.ABSORPTION)
 
-    # swarm.__str__()
+    swarm.__str__()
 
     t = 0
 
@@ -22,8 +22,8 @@ def main():
 
         t += 1
 
-    # print()
-    # swarm.__str__()
+    print()
+    swarm.__str__()
 
 def update_brightness(fireflies):
     for firefly in fireflies:
