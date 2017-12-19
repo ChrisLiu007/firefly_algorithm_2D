@@ -4,6 +4,9 @@ import utils
 
 def main():
     swarm = Swarm(config.ALPHA, config.ABSORPTION)
+    update_brightness(swarm.fireflies)
+    swarm.update_attractiveness()
+    utils.description(swarm.fireflies)
 
     swarm.__str__()
 
@@ -11,14 +14,16 @@ def main():
 
     while t < config.MAX_GENERATION:
         for i, firefly in enumerate(swarm.fireflies):
-            update_brightness(swarm.fireflies)
-            swarm.update_attractiveness()
+
             other_firefly = swarm.most_attractive[i]
 
             if other_firefly is not firefly and other_firefly.attractiveness > firefly.attractiveness:
                 swarm.move(firefly, other_firefly)
             elif other_firefly.attractiveness == firefly.attractiveness:
                 swarm.move_randomly(other_firefly)
+
+            update_brightness(swarm.fireflies)
+            swarm.update_attractiveness()
 
         t += 1
 

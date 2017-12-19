@@ -115,15 +115,17 @@ import utils
 
 def main():
     swarm = Swarm(config.ALPHA, config.ABSORPTION)
+    update_brightness(swarm.fireflies)
+    swarm.update_attractiveness()
+    utils.description(swarm.fireflies)
 
-    # swarm.__str__()
+    swarm.__str__()
 
     t = 0
 
     while t < config.MAX_GENERATION:
         for i, firefly in enumerate(swarm.fireflies):
-            update_brightness(swarm.fireflies)
-            swarm.update_attractiveness()
+
             other_firefly = swarm.most_attractive[i]
 
             if other_firefly is not firefly and other_firefly.attractiveness > firefly.attractiveness:
@@ -131,10 +133,13 @@ def main():
             elif other_firefly.attractiveness == firefly.attractiveness:
                 swarm.move_randomly(other_firefly)
 
+            update_brightness(swarm.fireflies)
+            swarm.update_attractiveness()
+
         t += 1
 
-    # print()
-    # swarm.__str__()
+    print()
+    swarm.__str__()
 
 def update_brightness(fireflies):
     for firefly in fireflies:
